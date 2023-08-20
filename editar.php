@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
         categoria = :categoria,
         stock = :stock,
         precio = :precio,
-        updated_at = NOW()
+        actualizado = NOW()
         WHERE codigo = :codigo";
     $consulta = $conexion->prepare($consultaSQL);
     $consulta->execute($productos);
