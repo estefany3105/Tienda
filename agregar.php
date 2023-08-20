@@ -1,41 +1,26 @@
 <?php
-
 include 'funciones.php';
-
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
   die();
 }
-
 if (isset($_POST['submit'])) {
   $resultado = [
     'error' => false,
     'mensaje' => 'El producto ' . escapar($_POST['producto']) . ' ha sido agregado con éxito'
   ];
-
-  $config = include 'config.php';
-
-  try {
-    $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
-    $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
-
+  $config = require 'conexion1.php';
     $productos = [
       "producto"   => $_POST['producto'],
       "categoria" => $_POST['categoria'],
       "stock"    => $_POST['stock'],
       "precio"     => $_POST['precio'],
     ];
-
     $consultaSQL = "INSERT INTO productos (producto, categoria, stock, precio)";
     $consultaSQL .= "values (:" . implode(", :", array_keys($productos)) . ")";
 
-    $sentencia = $conexion->prepare($consultaSQL);
+    $sentencia = $db->prepare($consultaSQL);
     $sentencia->execute($productos);
-
-  } catch(PDOException $error) {
-    $resultado['error'] = true;
-    $resultado['mensaje'] = $error->getMessage();
-  }
 }
 ?>
 <html lang="es">
@@ -43,15 +28,13 @@ if (isset($_POST['submit'])) {
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>TIENDA TORRES</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
 <link rel="stylesheet" href="css/custom.css">
-  <body>
+<body>
 <?php
 if (isset($resultado)) {
   ?>
@@ -67,7 +50,6 @@ if (isset($resultado)) {
   <?php
 }
 ?>
-
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -99,5 +81,5 @@ if (isset($resultado)) {
     </div>
   </div>
 </div>
-  </body>
-  </html>
+</body>
+</html>
