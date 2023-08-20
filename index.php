@@ -1,33 +1,19 @@
 <?php
 include 'funciones.php';
-
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
   die();
 }
-
 $error = false;
-$config = include 'config.php';
-
-try {
-  $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
-  $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
-
+$config = require 'conexion1.php';
   if (isset($_POST['producto'])) {
     $consultaSQL = "SELECT * FROM productos WHERE producto LIKE '%" . $_POST['producto'] . "%'";
   } else {
     $consultaSQL = "SELECT * FROM productos";
   }
-
-  $sentencia = $conexion->prepare($consultaSQL);
+  $sentencia = $db->prepare($consultaSQL);
   $sentencia->execute();
-
   $productos = $sentencia->fetchAll();
-
-} catch(PDOException $error) {
-  $error= $error->getMessage();
-}
-
 $titulo = isset($_POST['producto']) ? 'Administrar productos (' . $_POST['producto'] . ')' : 'Administrar poductos';
 ?>
 <html lang="es">
@@ -35,13 +21,11 @@ $titulo = isset($_POST['producto']) ? 'Administrar productos (' . $_POST['produc
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>TIENDA TORRES</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
 <link rel="stylesheet" href="css/custom.css">
   <body>
 <?php
@@ -59,7 +43,6 @@ if ($error) {
   <?php
 }
 ?>
-
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -84,8 +67,8 @@ if ($error) {
       <h2 ><?= $titulo ?></h2>
    </div>
    <div class="col-sm-6">
-						<a href="agregar.php" class="btn btn-success" ><i class="material-icons">&#xE147;</i> <span>Agregar nuevo producto</span></a>
-					</div>
+			<a href="agregar.php" class="btn btn-success" ><i class="material-icons">&#xE147;</i> <span>Agregar nuevo producto</span></a>
+			</div>
 </div>
 </div>
    <div class="table-responsive">
@@ -125,5 +108,5 @@ if ($error) {
     </div>
   </div>
 </div>
-  </body>
-  </html>
+</body>
+</html>
