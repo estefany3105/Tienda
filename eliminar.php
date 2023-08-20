@@ -7,7 +7,6 @@ $resultado = [
 ];
   $codigo = $_GET['codigo'];
   $consultaSQL = "DELETE FROM productos WHERE codigo =" . $codigo;
-
   $sentencia = $db->prepare($consultaSQL);
   $sentencia->execute();
   header('Location: index.php');
