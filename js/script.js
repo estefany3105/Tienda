@@ -19,7 +19,7 @@ function load(page){
     })
 }
 $('#editProductModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
+  var button = $(event.relatedTarget)
   var code = button.data('code') 
   $('#edit_code').val(code)
   var name = button.data('name') 
@@ -35,7 +35,7 @@ $('#editProductModal').on('show.bs.modal', function (event) {
 })
 
 $('#deleteProductModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
+  var button = $(event.relatedTarget)
   var id = button.data('id') 
   $('#delete_id').val(id)
 })
