@@ -1,7 +1,5 @@
 CREATE DATABASE tienda;
-
 use tienda;
-
 CREATE TABLE productos (
   codigo INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   producto VARCHAR(30) NOT NULL,
